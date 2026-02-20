@@ -1,39 +1,42 @@
-document.addEventListener("DOMContentLoaded", function () {
+// SAFE DOM LOADING
+document.addEventListener("DOMContentLoaded", () => {
 
-    const authModal = document.getElementById("authModal");
+    const loginModal = document.getElementById("loginModal");
     const dashboard = document.getElementById("dashboard");
-    const landing = document.getElementById("landing");
-    const navbar = document.getElementById("navbar");
 
-    // Auto-login if user exists
-    const savedUser = localStorage.getItem("velioraUser");
-    if (savedUser) {
-        activateDashboard(savedUser);
-    }
-
+    // OPEN MODAL
     window.openModal = function () {
-        authModal.classList.remove("hidden");
+        if (loginModal) loginModal.classList.remove("hidden");
     }
 
+    // CLOSE MODAL
+    window.closeModal = function () {
+        if (loginModal) loginModal.classList.add("hidden");
+    }
+
+    // LOGIN
     window.login = function () {
-        const name = document.getElementById("usernameInput").value.trim();
-        if (name !== "") {
-            localStorage.setItem("velioraUser", name);
-            activateDashboard(name);
-        }
+        const email = document.getElementById("email");
+        if (!email || email.value.trim() === "") return;
+
+        closeModal();
+        if (dashboard) dashboard.classList.remove("hidden");
+        document.body.classList.add("logged-in");
     }
 
-    function activateDashboard(name) {
-        authModal.classList.add("hidden");
-        if (landing) landing.classList.add("hidden");
-        if (navbar) navbar.classList.add("hidden");
-        dashboard.classList.remove("hidden");
-        document.getElementById("welcomeText").textContent = "Hi, " + name;
-    }
-
+    // LOGOUT
     window.logout = function () {
-        localStorage.removeItem("velioraUser");
-        location.reload();
+        if (dashboard) dashboard.classList.add("hidden");
     }
+
+    // BUTTON MICRO-ANIMATION
+    document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            btn.style.transform = "scale(0.96)";
+            setTimeout(() => {
+                btn.style.transform = "";
+            }, 120);
+        });
+    });
 
 });
