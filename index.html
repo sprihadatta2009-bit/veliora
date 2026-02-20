@@ -3,47 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veliora — Student Productivity Hub</title>
+<title>Veliora — Student Productivity OS</title>
 
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    background: #f8fafc;
+    color: #111827;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
-header {
+/* NAVBAR */
+.navbar {
     padding: 20px 40px;
-    font-weight: 600;
-    font-size: 22px;
-}
-
-.container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 80vh;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.card {
+.logo { font-weight: 700; font-size: 20px; }
+
+.nav-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #7c3aed;
+    color: white;
+    cursor: pointer;
+}
+
+/* LANDING */
+.landing {
+    text-align: center;
+    padding: 120px 20px;
+}
+
+.landing h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.landing p {
+    font-size: 18px;
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+/* AUTH MODAL */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
     background: white;
     padding: 40px;
     border-radius: 16px;
     width: 350px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-h2 {
-    margin-top: 0;
 }
 
 input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-top: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
@@ -51,105 +81,154 @@ input {
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #7c3aed;
-    color: white;
-    font-weight: 600;
+    padding: 10px 15px;
     border-radius: 8px;
+    border: none;
     cursor: pointer;
 }
 
-button:hover {
-    background: #6d28d9;
+.primary {
+    background: #7c3aed;
+    color: white;
+    width: 100%;
 }
 
+/* DASHBOARD */
 .dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 220px;
+    background: white;
+    padding: 30px;
+    border-right: 1px solid #e5e7eb;
+}
+
+.sidebar h3 { margin-bottom: 20px; }
+
+.sidebar button {
+    width: 100%;
+    margin-bottom: 10px;
+    background: #f3f4f6;
+}
+
+.content {
+    flex: 1;
     padding: 40px;
 }
 
-.section {
+.card {
     background: white;
     padding: 25px;
-    border-radius: 14px;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
-.logout {
-    background: #ef4444;
-    margin-top: 20px;
-}
+.logout { background: #ef4444; color: white; }
 </style>
 </head>
-
 <body>
 
-<header>Veliora 🚀</header>
+<!-- NAVBAR -->
+<div class="navbar" id="navbar">
+    <div class="logo">Veliora</div>
+    <button class="nav-btn" onclick="openModal()">Login</button>
+</div>
 
-<!-- LOGIN PAGE -->
-<div id="loginPage" class="container">
-    <div class="card">
-        <h2>Welcome Back</h2>
-        <input type="text" id="username" placeholder="Enter your name" required>
-        <button id="loginBtn">Login</button>
+<!-- LANDING -->
+<section class="landing" id="landing">
+    <h1>Student Productivity OS</h1>
+    <p>Plan smarter. Focus deeper. Track growth.</p>
+    <button class="nav-btn" onclick="openModal()">Get Started</button>
+</section>
+
+<!-- AUTH MODAL -->
+<div class="modal hidden" id="authModal">
+    <div class="modal-content">
+        <h2>Login</h2>
+        <input type="text" id="usernameInput" placeholder="Enter your name">
+        <button class="primary" onclick="login()">Continue</button>
     </div>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" class="dashboard hidden">
+<div class="dashboard hidden" id="dashboard">
 
-    <h2 id="welcomeMessage"></h2>
-
-    <div class="section">
-        <h3>Study Planner</h3>
-        <input type="text" id="taskInput" placeholder="Add a new task">
-        <button onclick="addTask()">Add Task</button>
-        <ul id="taskList"></ul>
+    <div class="sidebar">
+        <h3 id="welcomeText"></h3>
+        <button onclick="showSection('tasks')">Tasks</button>
+        <button onclick="showSection('timer')">Pomodoro</button>
+        <button onclick="showSection('mood')">Mood</button>
+        <button class="logout" onclick="logout()">Logout</button>
     </div>
 
-    <div class="section">
-        <h3>Pomodoro Timer</h3>
-        <h1 id="timer">25:00</h1>
-        <button onclick="startTimer()">Start</button>
-        <button onclick="resetTimer()">Reset</button>
+    <div class="content">
+
+        <!-- TASKS -->
+        <div id="tasksSection" class="section">
+            <div class="card">
+                <h3>Study Tasks</h3>
+                <input type="text" id="taskInput" placeholder="Add a task">
+                <button class="primary" onclick="addTask()">Add Task</button>
+                <ul id="taskList"></ul>
+            </div>
+        </div>
+
+        <!-- TIMER -->
+        <div id="timerSection" class="section hidden">
+            <div class="card">
+                <h3>Pomodoro Timer</h3>
+                <h1 id="timerDisplay">25:00</h1>
+                <button onclick="startTimer()">Start</button>
+                <button onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+
+        <!-- MOOD -->
+        <div id="moodSection" class="section hidden">
+            <div class="card">
+                <h3>Mood Tracker</h3>
+                <button onclick="setMood('Focused 🎯')">Focused</button>
+                <button onclick="setMood('Happy 😊')">Happy</button>
+                <button onclick="setMood('Stressed 😓')">Stressed</button>
+                <p id="moodText"></p>
+            </div>
+        </div>
+
     </div>
-
-    <div class="section">
-        <h3>Mood Tracker</h3>
-        <button onclick="setMood('Focused 🎯')">Focused</button>
-        <button onclick="setMood('Happy 😊')">Happy</button>
-        <button onclick="setMood('Stressed 😓')">Stressed</button>
-        <p id="moodText"></p>
-    </div>
-
-    <button class="logout" onclick="logout()">Logout</button>
-
 </div>
 
 <script>
-const loginPage = document.getElementById("loginPage");
+const authModal = document.getElementById("authModal");
 const dashboard = document.getElementById("dashboard");
-const loginBtn = document.getElementById("loginBtn");
-const welcomeMessage = document.getElementById("welcomeMessage");
+const landing = document.getElementById("landing");
+const navbar = document.getElementById("navbar");
 
-if(localStorage.getItem("velioraUser")) {
+if(localStorage.getItem("velioraUser")){
     showDashboard(localStorage.getItem("velioraUser"));
 }
 
-loginBtn.addEventListener("click", function(){
-    const username = document.getElementById("username").value.trim();
-    if(username !== ""){
-        localStorage.setItem("velioraUser", username);
-        showDashboard(username);
+function openModal(){
+    authModal.classList.remove("hidden");
+}
+
+function login(){
+    const name = document.getElementById("usernameInput").value.trim();
+    if(name !== ""){
+        localStorage.setItem("velioraUser", name);
+        showDashboard(name);
     }
-});
+}
 
 function showDashboard(name){
-    loginPage.classList.add("hidden");
+    authModal.classList.add("hidden");
+    landing.classList.add("hidden");
+    navbar.classList.add("hidden");
     dashboard.classList.remove("hidden");
-    welcomeMessage.textContent = "Hello, " + name + " 👋";
+    document.getElementById("welcomeText").textContent = "Hi, " + name;
 }
 
 function logout(){
@@ -157,51 +236,45 @@ function logout(){
     location.reload();
 }
 
-/* Study Planner */
+/* Sections */
+function showSection(section){
+    document.getElementById("tasksSection").classList.add("hidden");
+    document.getElementById("timerSection").classList.add("hidden");
+    document.getElementById("moodSection").classList.add("hidden");
+    document.getElementById(section + "Section").classList.remove("hidden");
+}
+
+/* Tasks */
 function addTask(){
-    const taskInput = document.getElementById("taskInput");
-    if(taskInput.value.trim() !== ""){
+    const input = document.getElementById("taskInput");
+    if(input.value.trim() !== ""){
         const li = document.createElement("li");
-        li.textContent = taskInput.value;
+        li.textContent = input.value;
         document.getElementById("taskList").appendChild(li);
-        taskInput.value = "";
+        input.value = "";
     }
 }
 
 /* Timer */
 let time = 1500;
 let interval;
-
 function updateTimer(){
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-    document.getElementById("timer").textContent =
-        (minutes < 10 ? "0":"") + minutes + ":" +
-        (seconds < 10 ? "0":"") + seconds;
+    const m = Math.floor(time/60);
+    const s = time%60;
+    document.getElementById("timerDisplay").textContent =
+        (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
 }
-
 function startTimer(){
     clearInterval(interval);
-    interval = setInterval(function(){
-        if(time > 0){
-            time--;
-            updateTimer();
-        } else {
-            clearInterval(interval);
-            alert("Session complete 🎉");
-        }
-    }, 1000);
+    interval = setInterval(()=>{
+        if(time>0){ time--; updateTimer(); }
+        else { clearInterval(interval); alert("Session Complete 🎉"); }
+    },1000);
 }
+function resetTimer(){ clearInterval(interval); time=1500; updateTimer(); }
 
-function resetTimer(){
-    clearInterval(interval);
-    time = 1500;
-    updateTimer();
-}
-
-function setMood(mood){
-    document.getElementById("moodText").textContent =
-        "Current Mood: " + mood;
+function setMood(m){
+    document.getElementById("moodText").textContent = "Current Mood: " + m;
 }
 
 updateTimer();
