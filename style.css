@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#dbeafe,#f5d0fe);
+  transition: 0.3s;
+}
+
+.hidden { display: none; }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 25px;
+  padding: 30px;
+}
+
+.card {
+  background: rgba(255,255,255,0.8);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: white;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  width: 90%;
+}
+
+.dark {
+  background: #111827;
+  color: white;
+}
+
+.dark nav,
+.dark .card {
+  background: #1f2937;
+  color: white;
+}
+
+.auth-screen {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-box {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}

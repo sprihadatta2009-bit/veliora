@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veliora Pro | Student Growth Platform</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-box">
+    <h2>Veliora Pro</h2>
+    <input type="text" id="usernameInput" placeholder="Enter your name">
+    <button onclick="login()">Enter Dashboard</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+
+<nav>
+  <h2>Veliora</h2>
+  <div>
+    <span id="welcomeUser"></span>
+    <button onclick="logout()">Logout</button>
+    <button onclick="toggleDark()">🌙</button>
+  </div>
+</nav>
+
+<header>
+  <h1>Student Growth Dashboard</h1>
+</header>
+
+<section class="grid">
+
+<!-- TASK MANAGER -->
+<div class="card">
+  <h3>Task Manager</h3>
+  <input id="taskInput" placeholder="New task">
+  <button onclick="addTask()">Add</button>
+  <ul id="taskList"></ul>
+</div>
+
+<!-- POMODORO -->
+<div class="card">
+  <h3>Pomodoro</h3>
+  <h2 id="timer">25:00</h2>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="resetTimer()">Reset</button>
+</div>
+
+<!-- GOALS -->
+<div class="card">
+  <h3>Goals</h3>
+  <input id="goalInput" placeholder="Goal name">
+  <input id="goalProgress" type="number" placeholder="Progress %" min="0" max="100">
+  <button onclick="addGoal()">Save Goal</button>
+  <div id="goalList"></div>
+</div>
+
+<!-- MOOD TRACKER -->
+<div class="card">
+  <h3>Mood History</h3>
+  <button onclick="setMood('Happy')">Happy</button>
+  <button onclick="setMood('Focused')">Focused</button>
+  <button onclick="setMood('Stressed')">Stressed</button>
+  <canvas id="moodChart"></canvas>
+</div>
+
+</section>
+
+<footer>
+  <p>© 2026 Veliora Pro</p>
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
