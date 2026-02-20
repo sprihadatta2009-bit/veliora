@@ -1,157 +1,190 @@
+:root {
+    --bg1: #1f1b2e;
+    --bg2: #2a2440;
+    --card: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.08);
+
+    --purple: #c084fc;
+    --pink: #f472b6;
+    --blue: #7dd3fc;
+
+    --text-main: #f1f5f9;
+    --text-soft: #cbd5e1;
+}
+
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #fde7f3, #e0f2ff, #f3e8ff);
+    background: linear-gradient(145deg, var(--bg1), var(--bg2));
+    color: var(--text-main);
     min-height: 100vh;
-    color: #444;
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 
-.hidden { display: none; }
+.hidden { display: none !important; }
 
 /* NAVBAR */
+
 .navbar {
-    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,0.6);
-    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding: 20px 50px;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
 }
 
 .logo {
     font-weight: 700;
     font-size: 22px;
-    color: #7c3aed;
+    background: linear-gradient(90deg, var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .nav-btn {
     padding: 8px 18px;
-    border-radius: 20px;
+    border-radius: 30px;
     border: none;
-    background: linear-gradient(135deg, #a855f7, #ec4899);
+    background: linear-gradient(90deg, var(--pink), var(--purple));
     color: white;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.2s ease;
 }
 
 .nav-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+    box-shadow: 0 0 15px rgba(192,132,252,0.4);
 }
 
 /* LANDING */
+
 .landing {
     text-align: center;
-    padding: 120px 20px;
+    padding: 140px 20px;
 }
 
 .landing h1 {
-    font-size: 52px;
+    font-size: 54px;
     margin-bottom: 15px;
-    color: #7c3aed;
+    background: linear-gradient(90deg, var(--purple), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .landing p {
-    font-size: 18px;
+    color: var(--text-soft);
     margin-bottom: 30px;
-    color: #6b7280;
 }
 
 /* MODAL */
+
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
 }
 
 .modal-content {
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(20px);
-    padding: 40px;
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 25px;
-    width: 350px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    animation: popIn 0.4s ease;
+    padding: 35px;
+    width: 360px;
+    backdrop-filter: blur(25px);
+    animation: fadeIn 0.3s ease;
 }
 
-@keyframes popIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
 }
 
 input {
     width: 100%;
     padding: 12px;
+    margin: 12px 0 20px 0;
     border-radius: 20px;
-    border: none;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    background: #f3e8ff;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.05);
+    color: white;
     outline: none;
 }
 
+input:focus {
+    border-color: var(--purple);
+}
+
+/* BUTTONS */
+
 button {
     padding: 10px 15px;
-    border-radius: 20px;
+    border-radius: 25px;
     border: none;
     cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
 }
 
 .primary {
     width: 100%;
-    background: linear-gradient(135deg, #ec4899, #a855f7);
+    background: linear-gradient(90deg, var(--pink), var(--purple));
     color: white;
-    transition: 0.3s ease;
 }
 
 .primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(236,72,153,0.4);
+    box-shadow: 0 0 18px rgba(244,114,182,0.4);
 }
 
 /* DASHBOARD */
+
 .dashboard {
     display: flex;
     min-height: 100vh;
 }
 
 .sidebar {
-    width: 220px;
+    width: 230px;
     padding: 30px;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(15px);
-    border-right: 1px solid rgba(255,255,255,0.4);
+    border-right: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
 }
 
 .sidebar h3 {
     margin-bottom: 20px;
-    color: #7c3aed;
+    color: var(--purple);
 }
 
 .sidebar button {
     width: 100%;
     margin-bottom: 12px;
-    background: #ede9fe;
-    border-radius: 15px;
-    transition: 0.3s ease;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-main);
 }
 
 .sidebar button:hover {
-    background: #ddd6fe;
+    background: rgba(255,255,255,0.1);
 }
 
 .logout {
-    background: linear-gradient(135deg,#f87171,#fb7185);
+    margin-top: 25px;
+    background: linear-gradient(90deg, #f87171, #fb7185);
     color: white;
 }
 
@@ -160,44 +193,55 @@ button {
     padding: 40px;
 }
 
+/* CARDS */
+
 .card {
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(20px);
+    background: var(--card);
+    border: 1px solid var(--border);
     padding: 25px;
     border-radius: 25px;
+    backdrop-filter: blur(20px);
     margin-bottom: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
+    transition: 0.2s ease;
 }
 
 .card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(192,132,252,0.3);
+}
+
+.card h2 {
+    margin-bottom: 15px;
 }
 
 ul {
-    margin-top: 15px;
+    margin-top: 10px;
     padding-left: 20px;
 }
 
 li {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    color: var(--text-soft);
 }
 
-/* Timer */
+/* TIMER */
+
 #timerDisplay {
     font-size: 48px;
     margin: 20px 0;
-    color: #a855f7;
+    color: var(--purple);
 }
 
-/* Mobile */
-@media (max-width:768px){
+/* MOBILE */
+
+@media (max-width: 768px) {
     .dashboard {
         flex-direction: column;
     }
+
     .sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.5);
+        border-bottom: 1px solid var(--border);
     }
 }
