@@ -3,82 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veliora Pro | Student Growth Platform</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Veliora — Student Productivity Hub</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+}
+
+.hidden {
+    display: none;
+}
+
+header {
+    padding: 20px 40px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    width: 350px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #7c3aed;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6d28d9;
+}
+
+.dashboard {
+    padding: 40px;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.logout {
+    background: #ef4444;
+    margin-top: 20px;
+}
+</style>
 </head>
 
 <body>
 
-<!-- AUTH SCREEN -->
-<div id="authScreen" class="auth-screen">
-  <div class="auth-box">
-    <h2>Veliora Pro</h2>
-    <input type="text" id="usernameInput" placeholder="Enter your name">
-    <button onclick="login()">Enter Dashboard</button>
-  </div>
+<header>Veliora 🚀</header>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="container">
+    <div class="card">
+        <h2>Welcome Back</h2>
+        <input type="text" id="username" placeholder="Enter your name" required>
+        <button id="loginBtn">Login</button>
+    </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app" class="hidden">
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard hidden">
 
-<nav>
-  <h2>Veliora</h2>
-  <div>
-    <span id="welcomeUser"></span>
-    <button onclick="logout()">Logout</button>
-    <button onclick="toggleDark()">🌙</button>
-  </div>
-</nav>
+    <h2 id="welcomeMessage"></h2>
 
-<header>
-  <h1>Student Growth Dashboard</h1>
-</header>
+    <div class="section">
+        <h3>Study Planner</h3>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
 
-<section class="grid">
+    <div class="section">
+        <h3>Pomodoro Timer</h3>
+        <h1 id="timer">25:00</h1>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
 
-<!-- TASK MANAGER -->
-<div class="card">
-  <h3>Task Manager</h3>
-  <input id="taskInput" placeholder="New task">
-  <button onclick="addTask()">Add</button>
-  <ul id="taskList"></ul>
-</div>
+    <div class="section">
+        <h3>Mood Tracker</h3>
+        <button onclick="setMood('Focused 🎯')">Focused</button>
+        <button onclick="setMood('Happy 😊')">Happy</button>
+        <button onclick="setMood('Stressed 😓')">Stressed</button>
+        <p id="moodText"></p>
+    </div>
 
-<!-- POMODORO -->
-<div class="card">
-  <h3>Pomodoro</h3>
-  <h2 id="timer">25:00</h2>
-  <button onclick="startTimer()">Start</button>
-  <button onclick="resetTimer()">Reset</button>
-</div>
-
-<!-- GOALS -->
-<div class="card">
-  <h3>Goals</h3>
-  <input id="goalInput" placeholder="Goal name">
-  <input id="goalProgress" type="number" placeholder="Progress %" min="0" max="100">
-  <button onclick="addGoal()">Save Goal</button>
-  <div id="goalList"></div>
-</div>
-
-<!-- MOOD TRACKER -->
-<div class="card">
-  <h3>Mood History</h3>
-  <button onclick="setMood('Happy')">Happy</button>
-  <button onclick="setMood('Focused')">Focused</button>
-  <button onclick="setMood('Stressed')">Stressed</button>
-  <canvas id="moodChart"></canvas>
-</div>
-
-</section>
-
-<footer>
-  <p>© 2026 Veliora Pro</p>
-</footer>
+    <button class="logout" onclick="logout()">Logout</button>
 
 </div>
 
-<script src="script.js"></script>
+<script>
+const loginPage = document.getElementById("loginPage");
+const dashboard = document.getElementById("dashboard");
+const loginBtn = document.getElementById("loginBtn");
+const welcomeMessage = document.getElementById("welcomeMessage");
+
+if(localStorage.getItem("velioraUser")) {
+    showDashboard(localStorage.getItem("velioraUser"));
+}
+
+loginBtn.addEventListener("click", function(){
+    const username = document.getElementById("username").value.trim();
+    if(username !== ""){
+        localStorage.setItem("velioraUser", username);
+        showDashboard(username);
+    }
+});
+
+function showDashboard(name){
+    loginPage.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    welcomeMessage.textContent = "Hello, " + name + " 👋";
+}
+
+function logout(){
+    localStorage.removeItem("velioraUser");
+    location.reload();
+}
+
+/* Study Planner */
+function addTask(){
+    const taskInput = document.getElementById("taskInput");
+    if(taskInput.value.trim() !== ""){
+        const li = document.createElement("li");
+        li.textContent = taskInput.value;
+        document.getElementById("taskList").appendChild(li);
+        taskInput.value = "";
+    }
+}
+
+/* Timer */
+let time = 1500;
+let interval;
+
+function updateTimer(){
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    document.getElementById("timer").textContent =
+        (minutes < 10 ? "0":"") + minutes + ":" +
+        (seconds < 10 ? "0":"") + seconds;
+}
+
+function startTimer(){
+    clearInterval(interval);
+    interval = setInterval(function(){
+        if(time > 0){
+            time--;
+            updateTimer();
+        } else {
+            clearInterval(interval);
+            alert("Session complete 🎉");
+        }
+    }, 1000);
+}
+
+function resetTimer(){
+    clearInterval(interval);
+    time = 1500;
+    updateTimer();
+}
+
+function setMood(mood){
+    document.getElementById("moodText").textContent =
+        "Current Mood: " + mood;
+}
+
+updateTimer();
+</script>
+
 </body>
 </html>
